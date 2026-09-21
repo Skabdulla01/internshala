@@ -88,7 +88,7 @@ const Navbar = () => {
                 </div>
               ) : (
                 <>
-                  <button
+                  {/* <button
                     onClick={handlelogin}
                     className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2 flex items-center justify-center space-x-2 hover:bg-gray-50 "
                   >
@@ -111,7 +111,13 @@ const Navbar = () => {
                       />
                     </svg>
                     <span className="text-gray-700">Continue with google</span>
-                  </button>
+                  </button> */}
+                  <a
+                    href="/login"
+                    className="text-gray-600 hover:text-gray-800"
+                  >
+                    Login
+                  </a>
                   {/* <button className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700">
                     {" "}
                     <Link href={"/"}>Register</Link>

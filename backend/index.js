@@ -21,6 +21,6 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
 });
-app.listen(port, () => {
+app.listen(process.env.PORT , () => {
   console.log(`Server is running on the port ${port}`);
 });

@@ -3,6 +3,8 @@ import { User, Lock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { auth, provider } from "@/firebase/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const index = () => {
   const [formadata, setformadata] = useState({
@@ -11,6 +13,8 @@ const index = () => {
   });
   const router = useRouter();
   const [isloading, setisloading] = useState(false);
+
+
   const handlechange = (e: any) => {
     const { name, value } = e.target;
     setformadata((prev) => ({
@@ -24,17 +28,27 @@ const index = () => {
       toast.error("Please fill in all detials");
       return;
     }
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+
+    if (!passwordRegex.test(formadata.password)) {
+      toast.error(
+        "Password only contain 6+ characters, uppercase, lowercase"
+      );
+      return;
+    }
     try {
       setisloading(true);
-      const res = await axios.post(
-        "http://localhost:5000/api/admin/adminlogin",
-        formadata
+      await createUserWithEmailAndPassword(
+        auth,
+        formadata.username,
+        formadata.password
       );
-      toast.success("logged in successfuly");
-      router.push("/adminpanel");
+      toast.success("Account created successfully");
+      router.push("/login");
     } catch (error) {
       console.log(error);
-      toast.error("Invalid credentials");
+      toast.error("Failed to create account");
     } finally {
       setisloading(false);
     }
@@ -43,11 +57,8 @@ const index = () => {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="text-center text-3xl font-extrabold text-gray-900">
-          Admin Login
+          Create new account
         </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
-          Access the admin dashboard to manage internships and applications
-        </p>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -57,7 +68,7 @@ const index = () => {
                 htmlFor="username"
                 className="block text-sm font-medium text-gray-700"
               >
-                Username
+                email id
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -71,7 +82,7 @@ const index = () => {
                   value={formadata.username}
                   onChange={handlechange}
                   className="block w-full text-black pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  placeholder="Enter your username"
+                  placeholder="Enter your Email id"
                 />
               </div>
             </div>
@@ -80,7 +91,7 @@ const index = () => {
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700"
               >
-                Password
+                create Password
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -98,6 +109,7 @@ const index = () => {
                 />
               </div>
             </div>
+            
             <div>
               <button
                 type="submit"
@@ -107,12 +119,14 @@ const index = () => {
                 {isloading ? (
                   <div className="flex items-center">
                     <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-2"></div>
-                    Signing in...
+                    Creating account...
                   </div>
                 ) : (
-                  " Sign in"
+                  " create account"
                 )}
               </button>
+              <p className="w-full px-4 py-2 flex items-center justify-center space-x-2">or</p>
+              <p>Already have an account? <a href="/login" className="text-sm text-blue-600 hover:text-blue-800">Login</a></p>
             </div>
           </form>
         </div>
