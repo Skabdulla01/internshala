@@ -78,7 +78,7 @@ const index = () => {
   useEffect(()=>{
     const fetchdata=async()=>{
       try {
-        const res=await axios.get( `https://internshala-c7lq.onrender.com/api/internship/${id}`)     
+        const res=await axios.get( `${process.env.NEXT_PUBLIC_apiurl}/api/internship/${id}`)     
         setinternship(res.data)
       } catch (error) {
         console.log(error)
@@ -115,7 +115,7 @@ const index = () => {
         Application:id,
         availability
       }
-      await axios.post("https://internshala-c7lq.onrender.com/api/application",applicationdata)
+      await axios.post(`${process.env.NEXT_PUBLIC_apiurl}/api/application`,applicationdata)
       toast.success("Application submit successfully")
       router.push('/internship')
     } catch (error) {

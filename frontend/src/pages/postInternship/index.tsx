@@ -42,17 +42,17 @@ const index = () => {
     e.preventDefault();
     const hasemptyfields = Object.values(formData).some((val) => !val.trim());
     if (hasemptyfields) {
-      toast.error("Please fill in all detials");
+      toast.error("Please fill in all details");
       return;
     }
     try {
       setisloading(true);
-      const res = await axios.post("https://internshala-c7lq.onrender.com/api/internship", formData);
-      toast.success("job posted successfuly");
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_apiurl}/api/internship`, formData);
+      toast.success("internship posted successfully");
       router.push("/adminpanel");
     } catch (error) {
       console.log(error);
-      toast.error("error posting job");
+      toast.error("error posting internship");
     } finally {
       setisloading(false);
     }

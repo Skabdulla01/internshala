@@ -124,7 +124,7 @@ const index = () => {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await axios.get(`https://internshala-c7lq.onrender.com/api/job/${id}`);
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_apiurl}/api/job/${id}`);
         setjob(res.data);
       } catch (error) {
         console.log(error);
@@ -162,7 +162,7 @@ const index = () => {
         availability,
       };
       await axios.post(
-        "https://internshala-c7lq.onrender.com/api/application",
+        `${process.env.NEXT_PUBLIC_apiurl}/api/application`,
         applicationdata
       );
       toast.success("Application submit successfully");

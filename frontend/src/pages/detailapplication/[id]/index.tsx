@@ -13,7 +13,7 @@ const index = () => {
       try {
         setloading(true);
         const res = await axios.get(
-          `https://internshala-c7lq.onrender.com/api/application/${id}`
+          `${process.env.NEXT_PUBLIC_apiurl}/api/application/${id}`
         );
         console.log(res.data);
         setdata(res.data);
